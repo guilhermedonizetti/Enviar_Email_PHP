@@ -8,6 +8,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </head>
 
 <body>
@@ -23,18 +24,18 @@
 	<br>
 
 	<div class="container">
-		<form class="row g-3 needs-validation" method="POST" action="enviar_email.php">
+		<form class="row g-3 needs-validation" id="enviar_email" method="POST" action="enviar_email.php">
 		  <div class="col-md-4">
 		    <label for="validationCustom01" class="form-label">Para:</label>
-		    <input type="email" name="email_para" class="form-control" id="validationCustom01" value="" required>
+		    <input type="email" name="email_para" class="form-control" id="email_para" value="" required>
 		  </div>
 		  <div class="col-md-8">
 		    <label for="validationCustom02" class="form-label">Assunto:</label>
-		    <input type="text" name="assunto" class="form-control" id="validationCustom02" value="" required>
+		    <input type="text" name="assunto" class="form-control" id="assunto" value="" required>
 		  </div>
 		  <div class="col-md-12">
 		    <label for="validationCustom03" class="form-label">Conteúdo:</label>
-		    <textarea class="form-control" name="conteudo" required="" rows="10"></textarea>
+		    <textarea class="form-control" name="conteudo" id="conteudo" required="" rows="10"></textarea>
 		  </div>
 		  <div class="col-md-6">
 		    <label for="validationCustom05" class="form-label">Arquivo:</label>
@@ -42,9 +43,36 @@
 		  </div>
 		  <br>
 		  <div class="col-md-12" align="center">
-		    <input class="btn btn-outline-primary" type="submit" value="Enviar">
+		    <input class="btn btn-outline-primary EnviarEmail" type="button" value="Enviar">
 		  </div>
 		</form>
 	</div>
+
+	<script type="text/javascript">
+		$(".EnviarEmail").on( "click", function() {
+			var email = $("#email_para").val();
+			var assunto = $("#assunto").val();
+			var conteudo = $("#conteudo").val();
+
+			var url_email = "enviar_email.php?email_para="+email+"&assunto="+assunto+"&conteudo="+conteudo;
+
+			$.ajax({
+				type: 'GET',
+				url: url_email
+			}).done(function(resul){
+
+				if (resul != "true") {
+					alert("Erro :-( Tente enviar seu e-mail novamente.");
+				}
+				else {
+					alert("E-mail enviado com sucesso!")
+					$("#email_para").val('')
+					$("#assunto").val('')
+					$("#conteudo").val('')
+				}
+
+			})
+		});
+	</script>
 </body>
 </html>
