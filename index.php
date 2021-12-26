@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"> 
 	<title>Enviar E-mails</title>
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -10,6 +11,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 </head>
+
+<style type="text/css">
+	body {
+		background-color: #DCDCDC;
+		width: 100%;
+	}
+</style>
 
 <body>
 
@@ -47,12 +55,19 @@
 		  </div>
 		</form>
 	</div>
+	<br>
 
 	<script type="text/javascript">
 		$(".EnviarEmail").on( "click", function() {
 			var email = $("#email_para").val();
 			var assunto = $("#assunto").val();
 			var conteudo = $("#conteudo").val();
+
+			var campos = (email == "" || assunto == "" || conteudo == "");
+			if(campos == true) {
+				alert("E-mail, Assunto e Conteúdo devem ser preenchidos!")
+				throw ".";
+			}
 
 			var url_email = "enviar_email.php?email_para="+email+"&assunto="+assunto+"&conteudo="+conteudo;
 
@@ -61,18 +76,25 @@
 				url: url_email
 			}).done(function(resul){
 
-				if (resul != "true") {
-					alert("Erro :-( Tente enviar seu e-mail novamente.");
-				}
-				else {
+				if (resul == "true") {
 					alert("E-mail enviado com sucesso!")
 					$("#email_para").val('')
 					$("#assunto").val('')
 					$("#conteudo").val('')
 				}
+				else {
+					alert("Erro! Tente enviar seu e-mail novamente.");
+				}
 
 			})
 		});
 	</script>
+
+	<footer class="bg-light text-center text-lg-start">
+		<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+	    	Enviar E-mails -
+	    	<a class="text-dark" href="https://github.com/guilhermedonizetti/" target="_blank">Guilherme Donizetti</a>
+	  	</div>
+	</footer>
 </body>
 </html>

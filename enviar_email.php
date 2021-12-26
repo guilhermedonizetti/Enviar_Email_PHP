@@ -20,7 +20,7 @@
 	//CFUNCAO DE ERRO, SE HOUVER DADO EM FALTA
 	function erro()
 	{
-		echo "false";
+		echo "erro";
 	}
 
 	//VALIDACOES
@@ -35,7 +35,7 @@
 
 	try {
 	    //CONFIGURACOES DE SERVIDOR
-	    $mail->SMTPDebug  = SMTP::DEBUG_SERVER; //carrega os logs do envio
+	    //$mail->SMTPDebug  = SMTP::DEBUG_SERVER; //carrega os logs do envio
 	    $mail->isSMTP();
 	    $mail->Host  	  = 'smtp.gmail.com'; //Servidor de email do Gmail
 	    $mail->SMTPAuth   = true; //Habilita a autenticacao do email
@@ -45,7 +45,7 @@
 	    $mail->Port       = 465; //porta
 
 	    //DESTINATARIO(S)
-	    $mail->setFrom('guilhermebrunodonizetti@gmail.com', 'Guilherme Bruno'); //de
+	    $mail->setFrom('mail@gmail.com', 'Nome'); //de (email host)
 	    $mail->addAddress($email_para, $nome_para[0]); //para
 
 	    //CONTEUDO
