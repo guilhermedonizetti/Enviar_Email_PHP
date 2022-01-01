@@ -1,7 +1,7 @@
 <h1 align="center">
   Enviar E-mail - PHP
 </h1>
-<p align="center">Programa para envio de e-mails com PHP.<br><b>Status:</b> Em desenvolvimento :computer:</p>
+<p align="center">Programa para envio de e-mails com PHP.<br><b>Status:</b> Feito :computer: :heavy_check_mark:</p>
 
 <b>Objetivo:</b> a ideia é criar uma interface Web para realizar envio de e-mails baseado no servidor SMTP do Gmail. O programa não possui uma aplicação específica, mas através do código desenvolvido poderia ser reutilizado em outros cenários para fins mais específicos.
 
