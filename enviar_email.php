@@ -12,21 +12,32 @@
 	require 'lib/vendor/autoload.php';
 
 	//RECEBER OS DADOS
-	$email_para = isset($_GET["email_para"]) ? $_GET["email_para"] : null;
-	$assunto    = isset($_GET["assunto"]) ? $_GET["assunto"] : null;
-	$conteudo   = isset($_GET["conteudo"]) ? $_GET["conteudo"] : null;
-	//$arquivo = isset($_GET["arquivo"]) ? $_GET["arquivo"] : null;
+	$email_para = isset($_POST["email_para"]) ? utf8_decode($_POST["email_para"]) : null;
+	$assunto    = isset($_POST["assunto"]) ? utf8_decode($_POST["assunto"]) : null;
+	$conteudo   = isset($_POST["conteudo"]) ? utf8_decode($_POST["conteudo"]) : null;
+	$arquivo 	= isset($_FILES["arquivo"]) ? $_FILES["arquivo"] : null;
 
-	//CFUNCAO DE ERRO, SE HOUVER DADO EM FALTA
-	function erro()
+	//FAZ O UPLOAD TEMPORARIO DO ARQUIVO SE EXISTIR
+	if(!is_null($arquivo)) {
+
+		if(move_uploaded_file($arquivo["tmp_name"], "arquivos/" . $arquivo["name"])) {
+
+		}
+		else {
+			die("Falha ao fazer upload do arquivo.");
+		}
+	}
+
+	//FUNCAO DE ERRO, SE HOUVER DADO EM FALTA
+	function erro($x)
 	{
-		echo "erro";
+		echo "Erro: " . $x;
 	}
 
 	//VALIDACOES
-	if($email_para == '' || is_null($email_para)) erro();
-	if($assunto == '' || is_null($assunto)) erro();
-	if($conteudo == '' || is_null($conteudo)) erro();
+	if($email_para == '' || is_null($email_para)) erro("A");
+	if($assunto == '' || is_null($assunto)) erro("B");
+	if($conteudo == '' || is_null($conteudo)) erro("C");
 
 	$nome_para = explode("@", $email_para);
 
@@ -45,8 +56,13 @@
 	    $mail->Port       = 465; //porta
 
 	    //DESTINATARIO(S)
-	    $mail->setFrom('mail@gmail.com', 'Nome'); //de (email host)
+	    $mail->setFrom('guilhermebrunodonizetti@gmail.com', 'Guilherme Bruno'); //de
 	    $mail->addAddress($email_para, $nome_para[0]); //para
+
+	    //ANEXAR ARQUIVOS
+	    if($arquivo != null) {
+	    	$mail->addAttachment("arquivos/".$arquivo["name"], $arquivo["name"]);
+	    }
 
 	    //CONTEUDO
 	    $mail->isHTML(true); //envia email como HTML
@@ -57,5 +73,5 @@
 	    $mail->send();
 	    echo 'true';
 	} catch (Exception $e) {
-	    echo 'false';
+	    echo 'Não enviado por: ' . $e	;
 	}
